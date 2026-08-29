@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ركن المائدة — اطلب أونلاين</title>
+<meta name="description" content="تصفّح القائمة واطلب أونلاين — استلام أو توصيل، دفع نقدي أو عبر المحفظة الرقمية.">
+
+<!-- خطوط عربية: خط عرض مميز للعناوين + خط واضح للنصوص -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- Bootstrap 5 — نسخة RTL -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<!-- ثيم التطبيق (عدّل متغيرات CSS أعلى هذا الملف لتغيير الهوية البصرية) -->
+<link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ============ رابط التخطي ============ -->
+<a class="visually-hidden-focusable skip-link" href="#menu">الانتقال إلى القائمة</a>
+
+<!-- ============ الشريط العلوي ============ -->
+<header class="topbar">
+  <div class="container topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">◆</span>
+      <span class="brand-name" data-config="restaurantName">ركن المائدة</span>
+    </a>
+
+    <nav class="topbar-links d-none d-md-flex" aria-label="روابط رئيسية">
+      <a href="#menu">القائمة</a>
+      <a href="#about">من نحن</a>
+      <a href="#contact">زورونا</a>
+    </nav>
+
+    <div class="topbar-actions">
+      <button class="btn cart-btn" id="cartOpenBtn" aria-label="فتح السلة">
+        <i class="bi bi-bag"></i>
+        <span>السلة</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ الواجهة الرئيسية ============ -->
+<section class="hero" id="top">
+  <div class="container hero-inner">
+    <p class="eyebrow">اطلب أونلاين · استلام أو توصيل</p>
+    <h1 data-config="heroHeadline">طعام حقيقي، يُطهى عند الطلب.</h1>
+    <p class="hero-sub" data-config="heroSub">اختر أطباقك وأرسل طلبك مباشرة إلى المطبخ — ادفع نقدًا عند الاستلام أو عبر المحفظة الرقمية.</p>
+    <div class="hero-actions">
+      <a href="#menu" class="btn btn-brand">عرض القائمة</a>
+      <a href="#contact" class="btn btn-outline-brand">تعرّف على موقعنا</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ شريط حالة مصدر البيانات ============ -->
+<div class="container">
+  <div id="dataStatus" class="data-status" role="status"></div>
+</div>
+
+<!-- ============ شريط تصفية الأصناف ============ -->
+<div class="category-bar" id="categoryBar">
+  <div class="container category-bar-inner" id="categoryPills">
+    <!-- شرائح التصنيفات تُضاف هنا -->
+  </div>
+</div>
+
+<!-- ============ القائمة ============ -->
+<main class="container" id="menu">
+  <div id="menuSections"><!-- أقسام التصنيفات تُضاف هنا --></div>
+  <div id="menuEmpty" class="menu-empty d-none">
+    <i class="bi bi-egg-fried"></i>
+    <p>لا توجد أطباق لعرضها بعد. ارفع ملف الأصناف لبناء القائمة (راجع لوحة الإدارة).</p>
+  </div>
+</main>
+
+<!-- ============ من نحن ============ -->
+<section class="about" id="about">
+  <div class="container about-inner">
+    <div>
+      <p class="eyebrow">من نحن</p>
+      <h2 data-config="aboutHeadline">قائمة طعام تنطلق من المطبخ، تناسب أي مفهوم.</h2>
+      <p data-config="aboutBody">يتكيّف هذا القالب مع البيتزا والمقاهي وصالات الطعام الفاخرة والوجبات السريعة على حدٍّ سواء — بدّل الاسم والألوان والأطباق، وتبقى تجربة الطلب كما هي.</p>
+    </div>
+    <ul class="about-list">
+      <li><i class="bi bi-clock"></i><div><strong data-config="hours">مفتوح يوميًا، 11:00 صباحًا – 11:00 مساءً</strong><span>يُغلق المطبخ قبل 30 دقيقة من الإغلاق</span></div></li>
+      <li><i class="bi bi-truck"></i><div><strong>توصيل أو استلام</strong><span>اختر عند إتمام الطلب</span></div></li>
+      <li><i class="bi bi-wallet2"></i><div><strong>نقدًا أو عبر المحفظة</strong><span>أرفق إيصال الدفع في حال الدفع بالمحفظة</span></div></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ التواصل / العنوان ============ -->
+<section class="contact" id="contact">
+  <div class="container contact-inner">
+    <div class="contact-card">
+      <p class="eyebrow">زورونا أو تواصل معنا</p>
+      <h2 data-config="restaurantName2">ركن المائدة</h2>
+      <ul class="contact-details">
+        <li><i class="bi bi-geo-alt"></i><span data-config="address">14 شارع السوق، وسط المدينة — بالقرب من برج الساعة القديم</span></li>
+        <li><i class="bi bi-telephone"></i><a href="tel:+201000000000" data-config="phoneHref"><span data-config="phone" dir="ltr">+20 100 000 0000</span></a></li>
+        <li><i class="bi bi-envelope"></i><a href="mailto:hello@example.com" data-config="emailHref"><span data-config="email" dir="ltr">hello@example.com</span></a></li>
+        <li><i class="bi bi-whatsapp"></i><a href="#" target="_blank" rel="noopener" data-config="whatsappHref"><span>راسلنا على واتساب</span></a></li>
+      </ul>
+    </div>
+    <div class="map-placeholder" role="img" aria-label="مكان مخصص للخريطة — استبدله بخريطة مضمّنة حقيقية">
+      <div class="map-pin"><i class="bi bi-geo-alt-fill"></i></div>
+      <span>مكان الخريطة — أضف هنا إطار خرائط جوجل (iframe)</span>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span data-config="restaurantName3">ركن المائدة</span>
+    <span class="footer-note">قالب طلب طعام أونلاين — عدّله بحرية.</span>
+  </div>
+</footer>
+
+<!-- ============ زر السلة العائم (موبايل) ============ -->
+<button class="cart-fab d-md-none" id="cartFabBtn" aria-label="فتح السلة">
+  <i class="bi bi-bag"></i>
+  <span id="cartFabCount">0</span>
+</button>
+
+<!-- ============ لوحة السلة الجانبية ============ -->
+<div class="offcanvas offcanvas-end ticket-panel" tabindex="-1" id="cartPanel" aria-labelledby="cartPanelLabel">
+  <div class="ticket-notch top" aria-hidden="true"></div>
+  <div class="offcanvas-header">
+    <h2 class="offcanvas-title ticket-title" id="cartPanelLabel">طلبك</h2>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="إغلاق"></button>
+  </div>
+  <div class="offcanvas-body d-flex flex-column">
+    <div id="cartItems" class="cart-items"></div>
+    <div id="cartEmptyMsg" class="cart-empty d-none">
+      <i class="bi bi-bag-x"></i>
+      <p>سلتك فارغة. أضف طبقًا من القائمة.</p>
+    </div>
+
+    <div class="cart-summary mt-auto">
+      <div class="cart-line"><span>المجموع الفرعي</span><span id="cartSubtotal" class="mono" dir="ltr">0.00</span></div>
+      <div class="cart-line total"><span>الإجمالي</span><span id="cartTotal" class="mono" dir="ltr">0.00</span></div>
+      <button class="btn btn-brand w-100 mt-2" id="checkoutBtn" disabled>إتمام الطلب</button>
+    </div>
+  </div>
+  <div class="ticket-notch bottom" aria-hidden="true"></div>
+</div>
+
+<!-- ============ نافذة إتمام الطلب ============ -->
+<div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ticket-panel">
+      <div class="ticket-notch top" aria-hidden="true"></div>
+      <div class="modal-header">
+        <h2 class="modal-title ticket-title" id="checkoutModalLabel">إكمال بيانات الطلب</h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+      </div>
+      <form id="checkoutForm" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="custName">الاسم الكامل</label>
+            <input type="text" class="form-control" id="custName" required>
+          </div>
+          <div class="row g-2 mb-3">
+            <div class="col-7">
+              <label class="form-label" for="custPhone">رقم الهاتف</label>
+              <input type="tel" class="form-control" id="custPhone" dir="ltr" required>
+            </div>
+            <div class="col-5">
+              <label class="form-label" for="orderType">نوع الطلب</label>
+              <select class="form-select" id="orderType">
+                <option value="توصيل" selected>توصيل</option>
+                <option value="استلام">استلام</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3" id="addressField">
+            <label class="form-label" for="custAddress">عنوان التوصيل</label>
+            <textarea class="form-control" id="custAddress" rows="2" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="custNotes">ملاحظات للمطبخ (اختياري)</label>
+            <textarea class="form-control" id="custNotes" rows="1" placeholder="حساسية من مكوّن، درجة حرارة التوابل، مناديل إضافية…"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label" for="paymentMethod">طريقة الدفع</label>
+            <select class="form-select" id="paymentMethod">
+              <option value="نقدًا عند الاستلام" selected>نقدًا عند الاستلام</option>
+              <option value="Vodafone">Vodafone</option>
+              <option value="Fawry">Fawry</option>
+            </select>
+          </div>
+
+          <div id="walletFields" class="wallet-fields d-none">
+            <div class="wallet-note">
+              <p class="mb-1">حوّل المبلغ إلى:</p>
+              <p class="mono wallet-number" data-config="walletNumber" dir="ltr">01000000000 — محفظة المطعم</p>
+            </div>
+            <label class="form-label" for="receiptUpload">ارفع لقطة شاشة لإيصال الدفع</label>
+            <input type="file" class="form-control" id="receiptUpload" accept="image/*">
+            <img id="receiptPreview" class="receipt-preview d-none" alt="معاينة إيصال الدفع">
+            <div class="form-text">أرفق لقطة شاشة لتأكيد التحويل.</div>
+          </div>
+
+          <div class="order-review">
+            <div class="order-review-line"><span>عدد الأصناف (<span id="reviewCount">0</span>)</span><span id="reviewSubtotal" class="mono" dir="ltr">0.00</span></div>
+            <div class="order-review-line total"><span>المبلغ المستحق</span><span id="reviewTotal" class="mono" dir="ltr">0.00</span></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-brand w-100">إرسال الطلب</button>
+        </div>
+      </form>
+      <div class="ticket-notch bottom" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ نافذة تأكيد الطلب ============ -->
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content ticket-panel text-center">
+      <div class="ticket-notch top" aria-hidden="true"></div>
+      <div class="modal-body py-5">
+        <div class="confirm-stamp"><i class="bi bi-check-lg"></i></div>
+        <h2 class="ticket-title mt-3">تم إرسال الطلب إلى المطبخ</h2>
+        <p class="mb-1">رقم الطلب</p>
+        <p class="mono confirm-order-number" id="confirmOrderNumber" dir="ltr">#0000</p>
+        <p class="text-muted small">احتفظ بهذا الرقم للمراجعة. سنتواصل معك لتأكيد الطلب.</p>
+        <button class="btn btn-brand mt-3" data-bs-dismiss="modal">تم</button>
+      </div>
+      <div class="ticket-notch bottom" aria-hidden="true"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- SheetJS (قراءة/كتابة ملفات XLSX) -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<!-- إعدادات التطبيق (عدّل هذا الملف لتغيير هوية المطعم ومصدر البيانات) -->
+<script src="js/config.js"></script>
+<!-- منطق التطبيق -->
+<script src="js/app.js"></script>
+</body>
+</html>
