@@ -21,16 +21,15 @@ let state = {
 };
 
 const SAMPLE_PRODUCTS = [
-  { id: "s1", category: "المقبلات", name: "خبز بالثوم", description: "خبز مخبوز على الحطب مع زبدة الثوم والبقدونس.", price: 45, image: "https://images.unsplash.com/photo-1619531038896-7a1a3d6a3ba1?w=600&q=60", available: true },
-  { id: "s2", category: "المقبلات", name: "شوربة اليوم", description: "اسأل النادل — تتغيّر يوميًا.", price: 40, image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=60", available: true },
-  { id: "m1", category: "الأطباق الرئيسية", name: "طبق دجاج مشوي", description: "دجاج متبّل بالأعشاب، أرز، خضار مشوية.", price: 165, image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=60", available: true },
-  { id: "m2", category: "الأطباق الرئيسية", name: "برجر لحم كلاسيك", description: "قطعة لحم، جبن شيدر، صوص خاص، بطاطس مقلية.", price: 140, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=60", available: true },
-  { id: "m3", category: "الأطباق الرئيسية", name: "بيتزا مارجريتا", description: "طماطم إيطالية، جبن موزاريلا طازج، ريحان.", price: 150, image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=600&q=60", available: false },
-  { id: "d1", category: "الحلويات", name: "كيك الشوكولاتة الذائبة", description: "قلب دافئ، آيس كريم فانيليا.", price: 75, image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&q=60", available: true },
-  { id: "dr1", category: "المشروبات", name: "ليموناضة طازجة", description: "نعناع، مياه غازية، أوراق نعناع طازجة.", price: 35, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&q=60", available: true },
-  { id: "dr2", category: "المشروبات", name: "قهوة مثلجة", description: "تُحضَّر ببطء وتُقدَّم على الثلج.", price: 40, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=60", available: true }
+  { id: "s1", category: "قمصان", name: "قميص أكسفورد كلاسيك", description: "قطن مصري بلمسة ناعمة، قصة عصرية مناسبة للعمل والخروج.", price: 350, image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=600&q=60", available: true },
+  { id: "s2", category: "قمصان", name: "تيشيرت أوفرسايز", description: "قطن ثقيل عالي الجودة، قصة واسعة مريحة.", price: 220, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=60", available: true },
+  { id: "m1", category: "بناطيل", name: "بنطلون تشينو", description: "قماش قطني مرن، مناسب للإطلالات الرسمية وشبه الرسمية.", price: 420, image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=60", available: true },
+  { id: "m2", category: "بناطيل", name: "جينز سليم فيت", description: "دنيم عالي الجودة بقصة ضيقة تعطي مظهرًا أنيقًا.", price: 480, image: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600&q=60", available: true },
+  { id: "m3", category: "جاكيتات", name: "جاكيت جينز", description: "جاكيت دنيم كلاسيك بتصميم خالد وقصة عصرية.", price: 650, image: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600&q=60", available: false },
+  { id: "d1", category: "أحذية", name: "حذاء سنيكرز أبيض", description: "تصميم بسيط وأنيق، مناسب لكل الإطلالات اليومية.", price: 590, image: "https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?w=600&q=60", available: true },
+  { id: "dr1", category: "إكسسوارات", name: "حزام جلد طبيعي", description: "جلد طبيعي فاخر بإبزيم معدني أنيق.", price: 180, image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=60", available: true },
+  { id: "dr2", category: "إكسسوارات", name: "قبعة كاجوال", description: "قماش قطني خفيف، مناسبة للإطلالات الرياضية واليومية.", price: 150, image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=60", available: true }
 ];
-
 const money = (n) => `${Number(n || 0).toFixed(2)} ${APP_CONFIG.currencySymbol}`;
 const formatDate = (iso) => new Date(iso).toLocaleString("ar-EG-u-nu-latn");
 
