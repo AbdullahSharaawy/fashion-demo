@@ -19,7 +19,7 @@ const APP_CONFIG = {
   phoneHref: "tel:+201000000000",
   email: "hello@example.com",
   emailHref: "mailto:hello@example.com",
-  whatsappHref: "https://wa.me/201000000000",
+  whatsappHref: "https://wa.me/201027542173",
 
   // ---- الدفع ----
   // يُعرض الرمز بعد الرقم (مثال: "45.00 ج.م") — غيّره ليناسب عملتك.
