@@ -31,7 +31,7 @@ const APP_CONFIG = {
   // يمكن لصاحب المطعم رفع ملف جديد في أي وقت من لوحة الإدارة
   // (أعلى الصفحة ← أيقونة الحافظة)، وسيُحفظ في متصفحه ويحل محل هذا الملف.
 
-   productsFileUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTgxSuvvR9NL_v19bxs_mvcit7uI796k5OiwUbYpEcf3GrkWlJdNVbN2AO03pTuzs6LSBAAX4k2By3m/pub?output=csv",
+   productsFileUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0Io105UW8766fENDaybyJSU5kpywFWLgacyYLdgWjy-ynFcTGABATymilnWI6BqcnuT3offUntcx9/pub?gid=1371849327&single=true&output=csv",
 
    // رابط Google Apps Script Web App لاستقبال الطلبات. اتركه فارغًا قبل الربط.
    orderSubmitUrl: "",
