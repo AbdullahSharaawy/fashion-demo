@@ -296,11 +296,11 @@ function sendOrderToWhatsApp(order) {
   let message = `*طلب جديد 🛒*\n\n`;
   message += `*الاسم:* ${order.customerName}\n`;
   message += `*الهاتف:* ${order.phone}\n`;
-  message += `*نوع الطلب:* ${order.orderType}\n`;
+  
 
-  if (order.orderType === "توصيل") {
+  
     message += `*العنوان:* ${order.address}\n`;
-  }
+  
 
   if (order.notes) {
     message += `*الملاحظات:* ${order.notes}\n`;
@@ -391,11 +391,7 @@ function bindEvents(){
     document.getElementById("receiptUpload").required = electronicPayment;
   });
 
-  document.getElementById("orderType").addEventListener("change", (e) => {
-    const isPickup = e.target.value === "استلام";
-    document.getElementById("custAddress").required = !isPickup;
-    document.getElementById("addressField").classList.toggle("d-none", isPickup);
-  });
+ 
 
 }
 
