@@ -340,7 +340,6 @@ async function handleCheckoutSubmit(e){
     timestamp: new Date().toISOString(),
     customerName: document.getElementById("custName").value.trim(),
     phone: document.getElementById("custPhone").value.trim(),
-    orderType: document.getElementById("orderType").value,
     address: document.getElementById("custAddress").value.trim(),
     notes: document.getElementById("custNotes").value.trim(),
     paymentMethod,
