@@ -19,16 +19,7 @@ let state = {
   pendingReceiptDataUrl: null
 };
 
-const SAMPLE_PRODUCTS = [
-  { id: "s1", category: "المقبلات", name: "خبز بالثوم", description: "خبز مخبوز على الحطب مع زبدة الثوم والبقدونس.", price: 45, image: "https://images.unsplash.com/photo-1619531038896-7a1a3d6a3ba1?w=600&q=60", available: true },
-  { id: "s2", category: "المقبلات", name: "شوربة اليوم", description: "اسأل النادل — تتغيّر يوميًا.", price: 40, image: "https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=60", available: true },
-  { id: "m1", category: "الأطباق الرئيسية", name: "طبق دجاج مشوي", description: "دجاج متبّل بالأعشاب، أرز، خضار مشوية.", price: 165, image: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=600&q=60", available: true },
-  { id: "m2", category: "الأطباق الرئيسية", name: "برجر لحم كلاسيك", description: "قطعة لحم، جبن شيدر، صوص خاص، بطاطس مقلية.", price: 140, image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=60", available: true },
-  { id: "m3", category: "الأطباق الرئيسية", name: "بيتزا مارجريتا", description: "طماطم إيطالية، جبن موزاريلا طازج، ريحان.", price: 150, image: "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=600&q=60", available: false },
-  { id: "d1", category: "الحلويات", name: "كيك الشوكولاتة الذائبة", description: "قلب دافئ، آيس كريم فانيليا.", price: 75, image: "https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=600&q=60", available: true },
-  { id: "dr1", category: "المشروبات", name: "ليموناضة طازجة", description: "نعناع، مياه غازية، أوراق نعناع طازجة.", price: 35, image: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=600&q=60", available: true },
-  { id: "dr2", category: "المشروبات", name: "قهوة مثلجة", description: "تُحضَّر ببطء وتُقدَّم على الثلج.", price: 40, image: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=60", available: true }
-];
+
 
 const money = (n) => `${Number(n || 0).toFixed(2)} ${APP_CONFIG.currencySymbol}`;
 const formatDate = (iso) => new Date(iso).toLocaleString("ar-EG-u-nu-latn");
@@ -363,8 +354,7 @@ async function handleCheckoutSubmit(e){
   document.getElementById("walletFields").classList.add("d-none");
 
   bootstrap.Modal.getInstance(document.getElementById("checkoutModal"))?.hide();
-  document.getElementById("confirmOrderNumber").textContent = `#${String(orderNumber).padStart(4, "0")}`;
-  new bootstrap.Modal(document.getElementById("confirmModal")).show();
+   new bootstrap.Modal(document.getElementById("confirmModal")).show();
 }
 
 /* ---------------------------- أدوات مساعدة ---------------------------- */
