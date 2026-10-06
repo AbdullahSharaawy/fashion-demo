@@ -15,8 +15,8 @@ let state = {
   products: [],          // [{id, category, name, description, price, image, available}]
   categories: [],         // أسماء التصنيفات الفريدة، بترتيب أول ظهور
   activeCategory: "الكل",
-  cart: {},
-  pendingReceiptDataUrl: null
+  cart: {}
+
 };
 
 
@@ -250,18 +250,7 @@ function openCheckout(){
   new bootstrap.Modal(document.getElementById("checkoutModal")).show();
 }
 
-function handleReceiptUpload(e){
-  const file = e.target.files[0];
-  const preview = document.getElementById("receiptPreview");
-  if (!file){ state.pendingReceiptDataUrl = null; preview.classList.add("d-none"); return; }
-  const reader = new FileReader();
-  reader.onload = () => {
-    state.pendingReceiptDataUrl = reader.result;
-    preview.src = reader.result;
-    preview.classList.remove("d-none");
-  };
-  reader.readAsDataURL(file);
-}
+
 
 function nextOrderNumber(){
   state.orderSeq += 1;
@@ -319,10 +308,7 @@ async function handleCheckoutSubmit(e){
 
   const paymentMethod = document.getElementById("paymentMethod").value;
   const electronicPayment = ["Vodafone", "Fawry"].includes(paymentMethod);
-  if (electronicPayment && !state.pendingReceiptDataUrl){
-    alert("الرجاء إرفاق لقطة شاشة لإيصال الدفع للمتابعة.");
-    return;
-  }
+ 
 
   const orderNumber = nextOrderNumber();
   const order = {
@@ -348,9 +334,8 @@ async function handleCheckoutSubmit(e){
   state.cart = {};
   renderMenu();
   renderCart();
-  state.pendingReceiptDataUrl = null;
+ 
   document.getElementById("checkoutForm").reset();
-  document.getElementById("receiptPreview").classList.add("d-none");
   document.getElementById("walletFields").classList.add("d-none");
 
   bootstrap.Modal.getInstance(document.getElementById("checkoutModal"))?.hide();
@@ -376,7 +361,7 @@ function bindEvents(){
   document.getElementById("paymentMethod").addEventListener("change", (e) => {
     const electronicPayment = ["Vodafone", "Fawry"].includes(e.target.value);
     document.getElementById("walletFields").classList.toggle("d-none", !electronicPayment);
-     });
+      });
 
  
 
