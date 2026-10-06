@@ -372,13 +372,11 @@ function bindEvents(){
   document.getElementById("cartFabBtn").addEventListener("click", () => new bootstrap.Offcanvas(document.getElementById("cartPanel")).show());
   document.getElementById("checkoutBtn").addEventListener("click", openCheckout);
   document.getElementById("checkoutForm").addEventListener("submit", handleCheckoutSubmit);
-  document.getElementById("receiptUpload").addEventListener("change", handleReceiptUpload);
-
+ 
   document.getElementById("paymentMethod").addEventListener("change", (e) => {
     const electronicPayment = ["Vodafone", "Fawry"].includes(e.target.value);
     document.getElementById("walletFields").classList.toggle("d-none", !electronicPayment);
-    document.getElementById("receiptUpload").required = electronicPayment;
-  });
+     });
 
  
 
