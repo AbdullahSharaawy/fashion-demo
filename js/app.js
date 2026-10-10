@@ -332,12 +332,19 @@ function sendOrderToWhatsApp(order) {
 }
 async function handleCheckoutSubmit(e){
   e.preventDefault();
+  const form = e.target;
+
+  if (!form.checkValidity()) {
+    e.stopPropagation();
+    form.classList.add("was-validated");
+    return;
+  }
+
   const entries = cartEntries();
   if (!entries.length) return;
 
   const paymentMethod = document.getElementById("paymentMethod").value;
-  const electronicPayment = ["Vodafone", "Fawry"].includes(paymentMethod);
- 
+  
 
   const orderNumber = nextOrderNumber();
   const order = {
@@ -345,11 +352,11 @@ async function handleCheckoutSubmit(e){
     id: Math.random().toString(36).substring(2, 10).toUpperCase(),
     timestamp: new Date().toLocaleString('ar-EG'),
     customerName: document.getElementById("custName").value.trim(),
-    phone: document.getElementById("custPhone").value.trim(),
+    phone:  " " + document.getElementById("custPhone").value.trim(),
     address: document.getElementById("custAddress").value.trim(),
     notes: document.getElementById("custNotes").value.trim(),
     paymentMethod,
-    receiptDataUrl: electronicPayment ? state.pendingReceiptDataUrl : "",
+    paymentStatus: false,
     items: entries.map(e => ({ name: e.product.name, category: e.product.category, color: e.color, size: e.size, qty: e.qty, price: e.product.price, lineTotal: +(e.product.price * e.qty).toFixed(2) })),
     subtotal: +cartSubtotal().toFixed(2),
     total: +cartSubtotal().toFixed(2),
@@ -366,6 +373,7 @@ async function handleCheckoutSubmit(e){
   renderCart();
  
   document.getElementById("checkoutForm").reset();
+  document.getElementById("checkoutForm").classList.remove("was-validated");
   document.getElementById("walletFields").classList.add("d-none");
 
   bootstrap.Modal.getInstance(document.getElementById("checkoutModal"))?.hide();
@@ -396,7 +404,7 @@ function bindEvents(){
   document.getElementById("checkoutForm").addEventListener("submit", handleCheckoutSubmit);
  
   document.getElementById("paymentMethod").addEventListener("change", (e) => {
-    const electronicPayment = ["Vodafone", "Fawry"].includes(e.target.value);
+    const electronicPayment = e.target.value==='محفظة';
     document.getElementById("walletFields").classList.toggle("d-none", !electronicPayment);
       });
 

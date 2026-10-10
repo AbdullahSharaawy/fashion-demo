@@ -34,6 +34,6 @@ const APP_CONFIG = {
    productsFileUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0Io105UW8766fENDaybyJSU5kpywFWLgacyYLdgWjy-ynFcTGABATymilnWI6BqcnuT3offUntcx9/pub?gid=1371849327&single=true&output=csv",
 
    // رابط Google Apps Script Web App لاستقبال الطلبات.
-   orderSubmitUrl: "https://script.google.com/macros/s/AKfycbwKIHYqhUw14-XWLz0lTHyach8c0KHf8CiEwHErUPUH-4dA7p-leYSrwb_vxE6ljMk/exec",
+   orderSubmitUrl: "https://script.google.com/macros/s/AKfycbwICjUHfDRva6Eau8H_ADcAiFLwibbf8OQDNi2ELNd4KTSgBXDTtCbeYh0AhkBqqK0/exec",
 
 };
