@@ -15,7 +15,8 @@ let state = {
   products: [],          // [{id, category, name, description, price, image, available}]
   categories: [],         // أسماء التصنيفات الفريدة، بترتيب أول ظهور
   activeCategory: "الكل",
-  cart: {}
+  cart: {},
+  orderSeq: 0
 
 };
 
@@ -53,12 +54,14 @@ function normalizeRow(row, index){
   const price = parseFloat(get("price", "cost", "السعر")) || 0;
   const description = get("description", "desc", "الوصف");
   const image = get("imageurl", "image", "img", "photo", "رابطالصورة", "الصورة");
+  const colors = parseOptions(get("color", "colors", "colour", "colours", "اللون", "الألوان"), ["أسود", "أبيض", "أحمر", "أزرق"]);
+  const sizes = parseOptions(get("size", "sizes", "المقاس", "المقاسات"), ["S", "M", "L", "XL"]);
   const availableRaw = get("available", "instock", "active", "متوفر", "الحالة");
   const unavailableWords = ["no","false","0","out","soldout","لا","غيرمتوفر","نفذ","نفدت","غيرمتاح"];
   const available = availableRaw === "" ? true : !unavailableWords.includes(String(availableRaw).trim().toLowerCase().replace(/\s/g,""));
   const id = get("id") || `${category}-${name}-${index}`.toLowerCase().replace(/[^a-z0-9\u0600-\u06FF]+/g,"-");
   if (!name) return null;
-  return { id, category, name, description, price, image, available };
+  return { id, category, name, description, price, image, available, colors, sizes };
 }
 
 function workbookToProducts(workbook){
@@ -83,7 +86,7 @@ async function loadProducts(){
 
     return;
   }catch(err){
-    applyProducts(SAMPLE_PRODUCTS);
+
 
   }
 }
@@ -138,10 +141,10 @@ function renderMenu(){
   }).join("");
 
   container.querySelectorAll("[data-add]").forEach(btn => {
-    btn.addEventListener("click", () => addToCart(btn.getAttribute("data-add")));
+    btn.addEventListener("click", () => addSelectedProductToCart(btn, "data-add"));
   });
   container.querySelectorAll("[data-inc]").forEach(btn => {
-    btn.addEventListener("click", () => addToCart(btn.getAttribute("data-inc")));
+    btn.addEventListener("click", () => addSelectedProductToCart(btn, "data-inc"));
   });
   container.querySelectorAll("[data-dec]").forEach(btn => {
     btn.addEventListener("click", () => decrementCartItem(btn.getAttribute("data-dec")));
@@ -149,7 +152,7 @@ function renderMenu(){
 }
 
 function dishCardHtml(p){
-  const qty = state.cart[p.id] || 0;
+  const qty = cartEntries().filter(e => e.product.id === p.id).reduce((sum, e) => sum + e.qty, 0);
   const img = p.image || "https://placehold.co/400x300?text=%20";
   return `
     <article class="dish-card ${p.available ? "" : "dish-unavailable"}">
@@ -158,6 +161,18 @@ function dishCardHtml(p){
       <div class="dish-body">
         <h3 class="dish-name">${escapeHtml(p.name)}</h3>
         ${p.description ? `<p class="dish-desc">${escapeHtml(p.description)}</p>` : ""}
+        <div class="variant-fields">
+          <label>اللون
+            <select class="form-select form-select-sm" data-color-for="${escapeAttr(p.id)}">
+              ${p.colors.map(color => `<option value="${escapeAttr(color)}">${escapeHtml(color)}</option>`).join("")}
+            </select>
+          </label>
+          <label>المقاس
+            <select class="form-select form-select-sm" data-size-for="${escapeAttr(p.id)}">
+              ${p.sizes.map(size => `<option value="${escapeAttr(size)}">${escapeHtml(size)}</option>`).join("")}
+            </select>
+          </label>
+        </div>
         <div class="dish-footer">
           <span class="dish-price mono" dir="ltr">${money(p.price)}</span>
           ${p.available
@@ -176,15 +191,26 @@ function dishCardHtml(p){
 
 /* ---------------------------- 4. السلة ---------------------------- */
 
-function addToCart(id){
-  state.cart[id] = (state.cart[id] || 0) + 1;
+function addToCart(id, color, size){
+  const key = cartKey(id, color, size);
+  state.cart[key] = (state.cart[key] || 0) + 1;
   renderMenu();
   renderCart();
 }
+function addSelectedProductToCart(button, attribute){
+  const card = button.closest(".dish-card");
+  const id = button.getAttribute(attribute);
+  addToCart(
+    id,
+    card.querySelector(`[data-color-for="${escapeAttr(id)}"]`).value,
+    card.querySelector(`[data-size-for="${escapeAttr(id)}"]`).value
+  );
+}
 function decrementCartItem(id){
-  if (!state.cart[id]) return;
-  state.cart[id] -= 1;
-  if (state.cart[id] <= 0) delete state.cart[id];
+  const entry = cartEntries().find(e => e.product.id === id);
+  if (!entry) return;
+  state.cart[entry.key] -= 1;
+  if (state.cart[entry.key] <= 0) delete state.cart[entry.key];
   renderMenu();
   renderCart();
 }
@@ -196,7 +222,10 @@ function removeFromCart(id){
 
 function cartEntries(){
   return Object.entries(state.cart)
-    .map(([id, qty]) => ({ product: state.products.find(p => p.id === id), qty }))
+    .map(([key, qty]) => {
+      const [id, color = "", size = ""] = key.split("::").map(decodeURIComponent);
+      return { key, product: state.products.find(p => p.id === id), qty, color, size };
+    })
     .filter(e => e.product);
 }
 function cartCount(){ return Object.values(state.cart).reduce((a,b) => a+b, 0); }
@@ -225,8 +254,9 @@ function renderCart(){
         <div>
           <div class="cart-item-name">${escapeHtml(e.product.name)} × <span dir="ltr">${e.qty}</span></div>
           <div class="cart-item-price" dir="ltr">${money(e.product.price)} / للقطعة</div>
+          <div class="cart-item-variants">اللون: ${escapeHtml(e.color)} · المقاس: ${escapeHtml(e.size)}</div>
         </div>
-        <button type="button" class="cart-item-remove" data-remove="${e.product.id}"><i class="bi bi-trash"></i></button>
+        <button type="button" class="cart-item-remove" data-remove="${escapeAttr(e.key)}"><i class="bi bi-trash"></i></button>
       </div>`).join("");
     itemsEl.querySelectorAll("[data-remove]").forEach(btn => {
       btn.addEventListener("click", () => removeFromCart(btn.getAttribute("data-remove")));
@@ -274,10 +304,9 @@ async function sendOrderToSheet(order){
 }
 function sendOrderToWhatsApp(order) {
   let message = `*طلب جديد 🛒*\n\n`;
+   message += `*رقم الطلب:* ${order.id}\n`;
   message += `*الاسم:* ${order.customerName}\n`;
   message += `*الهاتف:* ${order.phone}\n`;
-  
-
   
     message += `*العنوان:* ${order.address}\n`;
   
@@ -290,7 +319,7 @@ function sendOrderToWhatsApp(order) {
   message += `*الأصناف:*\n`;
 
   order.items.forEach(item => {
-    message += `- ${item.qty}x ${item.name} (${item.price} ج.م)\n`;
+    message += `- ${item.qty}x ${item.name} | اللون: ${item.color} | المقاس: ${item.size} (${item.price} ج.م)\n`;
   });
 
   message += `\n*المجموع الإجمالي:* ${order.total} ج.م`;
@@ -313,22 +342,23 @@ async function handleCheckoutSubmit(e){
   const orderNumber = nextOrderNumber();
   const order = {
     orderNumber,
-    id: `ORD-${String(orderNumber).padStart(4, "0")}`,
-    timestamp: new Date().toISOString(),
+    id: Math.random().toString(36).substring(2, 10).toUpperCase(),
+    timestamp: new Date().toLocaleString('ar-EG'),
     customerName: document.getElementById("custName").value.trim(),
     phone: document.getElementById("custPhone").value.trim(),
     address: document.getElementById("custAddress").value.trim(),
     notes: document.getElementById("custNotes").value.trim(),
     paymentMethod,
     receiptDataUrl: electronicPayment ? state.pendingReceiptDataUrl : "",
-    items: entries.map(e => ({ name: e.product.name, category: e.product.category, qty: e.qty, price: e.product.price, lineTotal: +(e.product.price * e.qty).toFixed(2) })),
+    items: entries.map(e => ({ name: e.product.name, category: e.product.category, color: e.color, size: e.size, qty: e.qty, price: e.product.price, lineTotal: +(e.product.price * e.qty).toFixed(2) })),
     subtotal: +cartSubtotal().toFixed(2),
     total: +cartSubtotal().toFixed(2),
     status: "جديد"
   };
 
-  // if (!await sendOrderToSheet(order)) return;
+  const sheetPromise = sendOrderToSheet(order);
   sendOrderToWhatsApp(order);
+  if (!await sheetPromise) return;
 
   // إعادة تعيين السلة والنموذج
   state.cart = {};
@@ -346,6 +376,13 @@ async function handleCheckoutSubmit(e){
 
 function escapeHtml(str=""){
   return String(str).replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[m]));
+}
+function parseOptions(value, fallback){
+  const options = String(value || "").split(/[,|؛\n]+/).map(option => option.trim()).filter(Boolean);
+  return [...new Set(options.length ? options : fallback)];
+}
+function cartKey(id, color, size){
+  return [id, color, size].map(encodeURIComponent).join("::");
 }
 function escapeAttr(str=""){ return escapeHtml(str); }
 function slugify(str=""){ return str.toLowerCase().trim().replace(/[^a-z0-9\u0600-\u06FF]+/g,"-"); }

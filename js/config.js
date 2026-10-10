@@ -6,7 +6,7 @@
 
 const APP_CONFIG = {
   // ---- الهوية ----
-  restaurantName: "فخامه",
+  restaurantName: "Fashion",
   heroHeadline: "أزياء عصرية، تناسب كل الأذواق.",
   heroSub: "اختر ملابسك المفضلة وأتمم طلبك — ادفع نقدًا عند الاستلام أو عبر المحفظة الرقمية.",
   aboutHeadline: "أزياء عصرية ومميزة، تناسب جميع الإطلالات.",
@@ -15,16 +15,16 @@ const APP_CONFIG = {
 
   // ---- التواصل ----
   address: "14 شارع السوق، وسط المدينة — بالقرب من برج الساعة القديم",
-  phone: "+20 100 000 0000",
-  phoneHref: "tel:+201000000000",
-  email: "hello@example.com",
-  emailHref: "mailto:hello@example.com",
+  phone: "+20 102 754 2173",
+  phoneHref: "tel:+201027542173",
+  email: "abdallahsharawy200@gmail.com",
+  emailHref: "mailto:abdallahsharawy200@gmail.com",
   whatsappHref: "https://wa.me/201027542173",
 
   // ---- الدفع ----
   // يُعرض الرمز بعد الرقم (مثال: "45.00 ج.م") — غيّره ليناسب عملتك.
   currencySymbol: "ج.م",
-  walletNumber: "01000000000 — محفظة المطعم",
+  walletNumber: "01027542173 — محفظة المحل",
 
   // ---- مصدر البيانات ----
   // مسار ملف الأصناف الافتراضي الذي يُحمَّل تلقائيًا عند فتح الصفحة.
@@ -33,7 +33,7 @@ const APP_CONFIG = {
 
    productsFileUrl: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS0Io105UW8766fENDaybyJSU5kpywFWLgacyYLdgWjy-ynFcTGABATymilnWI6BqcnuT3offUntcx9/pub?gid=1371849327&single=true&output=csv",
 
-   // رابط Google Apps Script Web App لاستقبال الطلبات. اتركه فارغًا قبل الربط.
-   orderSubmitUrl: "",
+   // رابط Google Apps Script Web App لاستقبال الطلبات.
+   orderSubmitUrl: "https://script.google.com/macros/s/AKfycbwKIHYqhUw14-XWLz0lTHyach8c0KHf8CiEwHErUPUH-4dA7p-leYSrwb_vxE6ljMk/exec",
 
 };

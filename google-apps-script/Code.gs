@@ -21,7 +21,7 @@ function doPost(e) {
   }
 
   var items = (order.items || []).map(function(item) {
-    return item.qty + "x " + item.name + " (" + item.price + ")";
+    return item.qty + "x " + item.name + " - اللون: " + (item.color || "") + " - المقاس: " + (item.size || "") + " (" + item.price + ")";
   }).join("؛ ");
 
   sheet.appendRow([
