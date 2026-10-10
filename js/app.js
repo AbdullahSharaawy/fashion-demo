@@ -54,8 +54,9 @@ function normalizeRow(row, index){
   const price = parseFloat(get("price", "cost", "السعر")) || 0;
   const description = get("description", "desc", "الوصف");
   const image = get("imageurl", "image", "img", "photo", "رابطالصورة", "الصورة");
-  const colors = parseOptions(get("color", "colors", "colour", "colours", "اللون", "الألوان"), ["أسود", "أبيض", "أحمر", "أزرق"]);
-  const sizes = parseOptions(get("size", "sizes", "المقاس", "المقاسات"), ["S", "M", "L", "XL"]);
+  const colors = parseOptions(get("color", "colors", "colour", "colours", "اللون", "الألوان"),[]);
+  const sizes = parseOptions(get("size", "sizes", "المقاس", "المقاسات"),[]);
+  console.log(colors);
   const availableRaw = get("available", "instock", "active", "متوفر", "الحالة");
   const unavailableWords = ["no","false","0","out","soldout","لا","غيرمتوفر","نفذ","نفدت","غيرمتاح"];
   const available = availableRaw === "" ? true : !unavailableWords.includes(String(availableRaw).trim().toLowerCase().replace(/\s/g,""));
@@ -68,6 +69,7 @@ function workbookToProducts(workbook){
   const sheetName = workbook.SheetNames.find(n => ["products","الأصناف","المنتجات"].includes(n.trim().toLowerCase())) || workbook.SheetNames[0];
   const sheet = workbook.Sheets[sheetName];
   const rows = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+  console.log(rows);
   return rows.map(normalizeRow).filter(Boolean);
 }
 
@@ -81,6 +83,7 @@ async function loadProducts(){
     const csv = await res.text();
     const workbook = XLSX.read(csv, { type: "string" });
     const products = workbookToProducts(workbook);
+    console.log("Loaded products:", products);
     if (!products.length) throw new Error("empty sheet");
     applyProducts(products);
 
@@ -162,16 +165,20 @@ function dishCardHtml(p){
         <h3 class="dish-name">${escapeHtml(p.name)}</h3>
         ${p.description ? `<p class="dish-desc">${escapeHtml(p.description)}</p>` : ""}
         <div class="variant-fields">
+        ${p.colors && p.colors.length > 0 ?`
           <label>اللون
             <select class="form-select form-select-sm" data-color-for="${escapeAttr(p.id)}">
               ${p.colors.map(color => `<option value="${escapeAttr(color)}">${escapeHtml(color)}</option>`).join("")}
             </select>
           </label>
+          ` : ""}
+          ${p.sizes && p.sizes.length > 0 ? `
           <label>المقاس
             <select class="form-select form-select-sm" data-size-for="${escapeAttr(p.id)}">
               ${p.sizes.map(size => `<option value="${escapeAttr(size)}">${escapeHtml(size)}</option>`).join("")}
             </select>
           </label>
+          ` : ""}
         </div>
         <div class="dish-footer">
           <span class="dish-price mono" dir="ltr">${money(p.price)}</span>
@@ -200,10 +207,14 @@ function addToCart(id, color, size){
 function addSelectedProductToCart(button, attribute){
   const card = button.closest(".dish-card");
   const id = button.getAttribute(attribute);
+  
+  const colorSelect = card.querySelector(`[data-color-for="${escapeAttr(id)}"]`);
+  const sizeSelect = card.querySelector(`[data-size-for="${escapeAttr(id)}"]`);
+  
   addToCart(
     id,
-    card.querySelector(`[data-color-for="${escapeAttr(id)}"]`).value,
-    card.querySelector(`[data-size-for="${escapeAttr(id)}"]`).value
+    colorSelect ? colorSelect.value : "",
+    sizeSelect ? sizeSelect.value : ""
   );
 }
 function decrementCartItem(id){
@@ -254,8 +265,14 @@ function renderCart(){
         <div>
           <div class="cart-item-name">${escapeHtml(e.product.name)} × <span dir="ltr">${e.qty}</span></div>
           <div class="cart-item-price" dir="ltr">${money(e.product.price)} / للقطعة</div>
-          <div class="cart-item-variants">اللون: ${escapeHtml(e.color)} · المقاس: ${escapeHtml(e.size)}</div>
-        </div>
+          ${e.color || e.size ? `
+             <div class="cart-item-variants">
+               ${e.color ? `اللون: ${escapeHtml(e.color)}` : ''} 
+               ${e.color && e.size ? ' · ' : ''} 
+               ${e.size ? `المقاس: ${escapeHtml(e.size)}` : ''}
+             </div>
+          ` : ""}       
+           </div>
         <button type="button" class="cart-item-remove" data-remove="${escapeAttr(e.key)}"><i class="bi bi-trash"></i></button>
       </div>`).join("");
     itemsEl.querySelectorAll("[data-remove]").forEach(btn => {
